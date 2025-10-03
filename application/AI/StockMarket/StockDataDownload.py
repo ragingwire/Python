@@ -77,7 +77,9 @@ class StockDownloadApplication ( object ):
             self.__exit__( 1 )  
         try :
             self._stockData.writeToCSV ( self._OUTPUT_DIRECTORY + self._ticker_symbol + self._EXTENSION_CSV )
+            self.__log__ ( 'stock data written to ' + self._OUTPUT_DIRECTORY + self._ticker_symbol + self._EXTENSION_CSV )
             self._stockData.writeToExcel ( self._OUTPUT_DIRECTORY + self._ticker_symbol + self._EXTENSION_XLSX, self._ticker_symbol ) 
+            self.__log__ ( 'stock data written to ' + self._OUTPUT_DIRECTORY + self._ticker_symbol + self._EXTENSION_XLSX )
         except Exception as e: 
             self.__log__ ( 'error writing stock data to file ' + str(e) )
             self.__exit__( 1 )
