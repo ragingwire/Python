@@ -1,9 +1,6 @@
-import numpy as np
-import pandas as pd
 import yfinance as yf
 import sys
 import matplotlib.pyplot as plt
-from yfinance.utils import get_ticker_by_isin
 from datetime import datetime
 import time
 
@@ -25,8 +22,8 @@ class YFStockData ( object ):
     def downloadFailed ( self ):
         return self._download_failed
     
-    def __getData__ ( self, category = 'Close' ):
-        return self.__data [ category ]
+    def getData ( self ):
+        return self._data
     
     def setTickerSymbol (self, ticker_symbol ):
         self._ticker_symbol = ticker_symbol
@@ -85,7 +82,7 @@ class StockDownloadApplication ( object ):
             self.__exit__( 1 )
     
     def __plotStockData__ ( self ):
-        data = self._stockData._data
+        data = self._stockData.getData ()
         plot_title = self._ticker_symbol + ' stock price'
         self.__log__ ( 'plotting stock data for ' + self._ticker_symbol )
         plt.figure(figsize=(10, 6))
