@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 ticker = 'TXN'
 data = yf.download(ticker, period='max', progress=False)
 
+
 if data.empty:
     print(f"No data found for ticker {ticker}. Please check the ticker symbol.")
 else:

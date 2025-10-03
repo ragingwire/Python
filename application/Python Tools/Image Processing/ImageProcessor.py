@@ -247,7 +247,9 @@ class ImageProcessorApplication ( Application ):
             return False
         elif self.numCommandLineArgs == 2:
             self.sourceDirectory.setName ( sys.argv [ 1 ] )
+            self.destinationDirectory.setName ( sys.argv [ 1 ] )
         elif self.numCommandLineArgs == 3:
+            self.sourceDirectory.setName ( sys.argv [ 1 ] )
             self.destinationDirectory.setName ( sys.argv [ 2 ] )
         
         return True
@@ -277,6 +279,7 @@ class ImageProcessorApplication ( Application ):
 
 if __name__ == "__main__":
     
+    # aba ja 
     imageProcessorApplication = ImageProcessorApplication ()
     
    
