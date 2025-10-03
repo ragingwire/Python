@@ -9,17 +9,15 @@ if len ( sys.argv ) < 2:
     print ('stock ticker symbol is missing')
     exit( 1 )
 
-ticker_symbol = '^GDAXI'
-cvs_data_name = 'F:\\downloads\\stock.csv'
-xls_data_name = 'F:\\downloads\\stock.xlsx'
+ticker_symbol = 'TXN'
 xls_sheet_name = 'stockprice'
 
 start_date = datetime(2023, 1, 1)
 end_date = time.strftime("%Y-%m-%d")
 
 ticker_symbol = sys.argv [1]
-cvs_data_name = 'F:\\downloads\\' + ticker_symbol + '.csv'
-xls_data_name = 'F:\\downloads\\' + ticker_symbol + '.xlsx'
+cvs_data_name = 'F:\\development\\Python\\application\Data\\' + ticker_symbol + '.csv'
+xls_data_name = 'F:\\development\\Python\\application\Data\\' + ticker_symbol + '.xlsx'
 xls_sheet_name = ticker_symbol
 plot_title = ticker_symbol + ' stock price'
 

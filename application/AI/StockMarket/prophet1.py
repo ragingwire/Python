@@ -7,7 +7,7 @@ from prophet import Prophet
 import matplotlib.pyplot as plt
 
 # Download historical stock data for TXN from Yahoo Finance
-ticker = 'SEC0'
+ticker = 'txn'
 data = yf.download(ticker, period='max', progress=False)
 
 
