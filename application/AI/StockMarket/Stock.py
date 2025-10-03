@@ -42,11 +42,11 @@ class CustomMinMaxScaler:
 
 # --- 3. Data Utilities ---
 
-def download_stock_data(ticker_symbol='TXN', start_date='2024-01-01', end_date=None):
+def download_stock_data(ticker_symbol='TXN', start_date='2020-01-01', end_date=None):
     """Downloads historical stock data using yfinance."""
     print(f"Downloading data for {ticker_symbol} from Yahoo Finance...")
     try:
-        data = yf.download(ticker_symbol, start=start_date, end=end_date)
+        data = yf.download(ticker_symbol, start=start_date, end=end_date, auto_adjust = True)
         if data.empty:
             raise ValueError("No data returned from Yahoo Finance. Check ticker or date range.")
         
@@ -67,6 +67,9 @@ def create_sequences(data, seq_length):
     X, y = [], []
     for i in range(len(data) - seq_length):
         # Input sequence: indices i to i + seq_length
+        a = i
+        b = i + seq_length
+        seq = data[i:i + seq_length]
         X.append(data[i:i + seq_length])
         # Target value: index i + seq_length
         y.append(data[i + seq_length])
