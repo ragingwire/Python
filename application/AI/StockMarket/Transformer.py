@@ -26,9 +26,9 @@ if device.type == 'cuda':
 TICKER = "TXN"
 START_DATE = "2020-01-01"
 END_DATE = "2025-10-04"
-LOOKBACK_WINDOW = 30  # Number of past days to look at to predict the next day
+LOOKBACK_WINDOW = 100  # Number of past days to look at to predict the next day
 BATCH_SIZE = 32
-EPOCHS = 100
+EPOCHS = 500
 LEARNING_RATE = 0.001
 # Transformer parameters
 D_MODEL = 64        # Dimension of the model's hidden layers
