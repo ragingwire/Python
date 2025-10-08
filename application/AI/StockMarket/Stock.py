@@ -78,7 +78,7 @@ def create_sequences(data, seq_length):
 # --- 4. Model Definition ---
 
 class LSTMModel(nn.Module):
-    def __init__(self, input_size=1, hidden_size=50, num_layers=2, output_size=1, dropout=0.2):
+    def __init__(self, input_size=1, hidden_size=50, num_layers=2, output_size=1, dropout=0.5):
         """
         Initializes the LSTM model.
         
