@@ -159,11 +159,11 @@ def plot_results(dates, actual_prices, predicted_prices, train_size, seq_length)
 def main():
     # Hyperparameters and Settings
     TICKER_SYMBOL = 'TXN'
-    SEQUENCE_LENGTH = 60  # Look back 60 days
+    SEQUENCE_LENGTH = 30  # Look back 60 days
     TRAIN_RATIO = 0.8     # 80% of sequenced data for training
     BATCH_SIZE = 64
     LEARNING_RATE = 0.001
-    NUM_EPOCHS = 300       # Increased epochs slightly for real data
+    NUM_EPOCHS = 500       # Increased epochs slightly for real data
 
     # 1. Download Data
     raw_data, dates = download_stock_data(TICKER_SYMBOL)
@@ -211,7 +211,7 @@ def main():
     model = LSTMModel(input_size=input_dim).to(DEVICE)
     
     criterion = nn.MSELoss()
-    optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE)
+    optimizer = optim.Adam( model.parameters(), lr=LEARNING_RATE )
 
     print(f"\nModel initialized on {DEVICE}. Starting training for {NUM_EPOCHS} epochs...")
     start_time = time.time()

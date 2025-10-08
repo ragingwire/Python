@@ -63,6 +63,8 @@ class StockPricePrediction ( object ):
         self._predictions = None
         self._device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         
+        
+        
     def __prepare_data__() :
         ...
         

@@ -25,7 +25,7 @@ if device.type == 'cuda':
 # --- 2. Configuration Parameters ---
 TICKER = "TXN"
 START_DATE = "2020-01-01"
-END_DATE = "2025-10-04"
+END_DATE = "2025-10-08"
 LOOKBACK_WINDOW = 100  # Number of past days to look at to predict the next day
 BATCH_SIZE = 32
 EPOCHS = 500
