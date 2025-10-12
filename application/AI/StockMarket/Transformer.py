@@ -25,8 +25,8 @@ if device.type == 'cuda':
 # --- 2. Configuration Parameters ---
 TICKER = "TXN"
 START_DATE = "2020-01-01"
-END_DATE = "2025-10-08"
-LOOKBACK_WINDOW = 100  # Number of past days to look at to predict the next day
+END_DATE = "2025-10-12"
+LOOKBACK_WINDOW = 60  # Number of past days to look at to predict the next day
 BATCH_SIZE = 32
 EPOCHS = 500
 LEARNING_RATE = 0.001
@@ -38,7 +38,7 @@ N_LAYERS = 2        # Number of transformer encoder layers
 # --- 3. Data Acquisition and Preprocessing ---
 
 print(f"\nDownloading data for {TICKER}...")
-data = yf.download(TICKER, start=START_DATE, end=END_DATE)
+data = yf.download(TICKER, start=START_DATE, end=END_DATE, auto_adjust = True )
 # Use only the 'Close' price for prediction
 prices = data['Close'].values.reshape(-1, 1)
 
