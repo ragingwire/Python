@@ -119,6 +119,8 @@ class Directory ( File ):
     def exists ( self ) :
         if not os.path.exists( self._fullPath ):
             self._exists = False
+        else :
+            self._exists = True
         return self._exists
     
     def create (self ):
@@ -171,6 +173,7 @@ class ImageProcessor ( object ):
         return self._imageScaled
     
     def convertPNGtoJPG ( self, sourceImage, destinationImage, quality = 95 ):
+        self._imageProcessed +=1
         if sourceImage.exists () and sourceImage.isPNG () :
             try:
                 source = sourceImage.getFullPath () 
@@ -230,7 +233,7 @@ class Application ( object ):
 
 class ImageProcessorApplication ( Application ):
     
-    APPLICATION_NAME = "Image Processor"
+    APPLICATION_NAME = "Image Processor - convert png to jpg"
     APPLICATION_USAGE = "Usage: python your_script_name.py <input_directory_path>"
     
     def __init__ (self ):
@@ -258,21 +261,28 @@ class ImageProcessorApplication ( Application ):
         return True
     
     def __run__ ( self ):
+        print ( self.APPLICATION_NAME )
         imageProcessor = ImageProcessor ( self )
-        imageFiles = self.sourceDirectory.getFiles ()
-        images_to_process = self.sourceDirectory.getNumFiles ()
-        for i in range( images_to_process ) :
-            imageName = imageFiles [ i ]
-            sourceImage = ImageFile ( imageName )
-            destinationImage = ImageFile ( imageName )
-            destinationImage.setJPG ( quality = 95 )
-            imageProcessor.convertPNGtoJPG ( sourceImage, destinationImage )
+        if not self.sourceDirectory.exists ():
+            print ( "Source directory does not exist: " + self.sourceDirectory.getName () )
+            #self.exit ( 1 ) 
+        else :   
+            imageFiles = self.sourceDirectory.getFiles ()
+            images_to_process = self.sourceDirectory.getNumFiles ()
         
-            
-        print ( "Images processed: " + str (imageProcessor.getNumProcessedImages () ) ) 
-        print ( "Images converted " + str (imageProcessor.getNumConvertedImages () ) )
-        print ( "Images skipped: " + str (imageProcessor.getNumSkippedImages () ) )  
-        print ( "Images with errors: " + str (imageProcessor.getNumErrorImages () ) )    
+            for i in range( images_to_process ) :
+                imageName = imageFiles [ i ]
+                sourceImage = ImageFile ( imageName )
+                destinationImage = ImageFile ( imageName )
+                destinationImage.setJPG ( quality = 95 )
+                imageProcessor.convertPNGtoJPG ( sourceImage, destinationImage )
+        
+            print ( "Images processed: " + str (imageProcessor.getNumProcessedImages () ) ) 
+            print ( "Images converted " + str (imageProcessor.getNumConvertedImages () ) )
+            print ( "Images skipped: " + str (imageProcessor.getNumSkippedImages () ) )  
+            print ( "Images with errors: " + str (imageProcessor.getNumErrorImages () ) )
+          
+        input("\nPress any key to end program ")  
         return True
     
 
