@@ -41,7 +41,24 @@ class YFStockData ( object ):
     def writeToExcel ( self, file_name, sheet_name ):
         self._data.to_excel ( file_name, sheet_name = self._ticker_symbol )
         
+        
+        
+class LSTMModel( nn.Module ):
+    def __init__(self, input_size=1, hidden_size=50, num_layers=2, output_size=1, dropout=0.5) :
+        super(LSTMModel, self).__init__ ()
+        self.hidden_size = hidden_size
+        self.num_layers = num_layers
 
+        self.lstm = nn.LSTM (input_size, hidden_size, num_layers, batch_first=True, dropout=dropout )
+        self.fc = nn.Linear(hidden_size, output_size)
+        
+    def forward ( self, x ):
+        h0 = torch.zeros( self.num_layers, x.size(0), self.hidden_size).to(DEVICE )
+        c0 = torch.zeros( self.num_layers, x.size(0), self.hidden_size).to(DEVICE )
+        out, (hn, cn) = self.lstm( x, (h0.detach(), c0.detach()) )
+        out = self.fc( out[:, -1, :] )
+        return out
+        
         
 class StockPricePrediction ( object ):
     
@@ -65,17 +82,20 @@ class StockPricePrediction ( object ):
         
         
         
-    def __prepare_data__() :
+    def __scaleData (self ):
+        ...
+    
+    def __prepare_data__( self ) :
         ...
         
-    def __build_model__() :
+    def __build_model__( self ) :
         ...
-    def __train_model__() :
+    def __train_model__( self ) :
         ...
         
-    def __make_predictions__():
+    def __make_predictions__( self ):
         ...
-    def __plot_results__() :
+    def __plot_results__( self ) :
         ...
         
         

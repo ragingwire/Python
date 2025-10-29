@@ -263,24 +263,22 @@ class ImageProcessorApplication ( Application ):
     def __run__ ( self ):
         print ( self.APPLICATION_NAME )
         imageProcessor = ImageProcessor ( self )
-        if not self.sourceDirectory.exists ():
-            print ( "Source directory does not exist: " + self.sourceDirectory.getName () )
-            #self.exit ( 1 ) 
-        else :   
+        if self.sourceDirectory.exists ():  
             imageFiles = self.sourceDirectory.getFiles ()
             images_to_process = self.sourceDirectory.getNumFiles ()
-        
             for i in range( images_to_process ) :
                 imageName = imageFiles [ i ]
                 sourceImage = ImageFile ( imageName )
                 destinationImage = ImageFile ( imageName )
                 destinationImage.setJPG ( quality = 95 )
                 imageProcessor.convertPNGtoJPG ( sourceImage, destinationImage )
+        else :
+            print ( "Source directory does not exist: " + self.sourceDirectory.getName () )
         
-            print ( "Images processed: " + str (imageProcessor.getNumProcessedImages () ) ) 
-            print ( "Images converted " + str (imageProcessor.getNumConvertedImages () ) )
-            print ( "Images skipped: " + str (imageProcessor.getNumSkippedImages () ) )  
-            print ( "Images with errors: " + str (imageProcessor.getNumErrorImages () ) )
+        print ( "\n\nImages processed: " + str (imageProcessor.getNumProcessedImages () ) ) 
+        print ( "Images converted " + str (imageProcessor.getNumConvertedImages () ) )
+        print ( "Images skipped: " + str (imageProcessor.getNumSkippedImages () ) )  
+        print ( "Images with errors: " + str (imageProcessor.getNumErrorImages () ) )
           
         input("\nPress any key to end program ")  
         return True
@@ -289,7 +287,6 @@ class ImageProcessorApplication ( Application ):
 
 if __name__ == "__main__":
     
-    # aba ja 
     imageProcessorApplication = ImageProcessorApplication ()
     
    

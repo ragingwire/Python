@@ -50,8 +50,8 @@ def remove_image_background(input_path, output_path):
 
 
 # Define input and output paths
-input_image_path = "F:\\downloads\\input.png"
-output_image_path = 'F:\\downloads\\test.png'
+input_image_path = "F:\\ComfyUI\\videotemplate\\2025-10-18-092524__0.jpeg"
+output_image_path = "F:\\ComfyUI\\videotemplate\\2025-10-18-092524__0-bk.jpeg"
 
 # Call the function to remove the background
 remove_image_background(input_image_path, output_image_path)
