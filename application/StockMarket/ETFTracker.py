@@ -32,11 +32,24 @@ class ETF ( Equity ) :
     _ETF_REPLICATION_PHYSICAL = "physical"
     
 
-    def __init__ ( self, name, ticker, isin, wkn, numShares, distributionPolicy = _ETF_DISTRIBUTION_POLICY_ACCUMULATING, replication = _ETF_REPLICATION_PHYSICAL ):
+    def __init__ ( self, distributionPolicy = _ETF_DISTRIBUTION_POLICY_ACCUMULATING, replication = _ETF_REPLICATION_PHYSICAL ):
         super.__init__( ticker, isin, wkn )
-        self._numShares = numShares
+        self._fundProvider = ""
+        self._etfName = ""
+        self._ticker = ""
+        self._isin = ""
+        self._wkn = ""
+        self._fundCurrency = "USD"
+        self._hedged = False
+        self._numShares = 0
         self._distributionPolicy = distributionPolicy
         self._replication = replication
+        self._actualPrice = 0.0
+        self._basePrice = 0.0
+        self._actualPrice = 0.0
+        self._totalValue = 0.0
+        self._gain = 0.0
+        self._ter = 0.0
         
     def getNumShares ( self ):
         return self._numShares
@@ -47,6 +60,29 @@ class ETF ( Equity ) :
     def getReplication ( self ) :
         return self._replication
 
+
+class ETFTracker ( object ) :
+    
+    _ETF_TRACKER_CONFIGURATION_FILE = "F:\downloads\ETF-Tracker.xlsx"
+    
+    def __init__ ( self, configFile = _ETF_TRACKER_CONFIGURATION_FILE ) : 
+        super.__init__ ()
+        self.configFile = configFile
+        self.dataFrame = pd.DataFrame ()
+        self.etfs = []
+        
+    def __readConfigFile__ ( self ):
+        self.dataFrame = pd.read_excel ( self._ETF_TRACKER_CONFIGURATION_FILE )
+        
+        return True
+    
+    def __writeConfigFile__ ( self ):
+        self.dataFrame = pd.write_excel ( self._ETF_TRACKER_CONFIGURATION_FILE )
+        num_etfs = len ( self.dataFrame )
+        for etf in range ( num_etf ):
+            
+        
+        return True
 
 class Application ( object ):
     
@@ -81,11 +117,11 @@ class Application ( object ):
 
 class ETFTrackerApplication ( Application ):
     
-    APPLICATION_NAME = "ETF Tracker Application"
-    APPLICATION_USAGE = "Usage: python your_script_name.py <input_directory_path>"
+    _APPLICATION_NAME = "ETF Tracker Application"
+    _APPLICATION_USAGE = "Usage: python your_script_name.py <input_directory_path>"
     
     def __init__ (self ):
-        super ().__init__ ( ETFTrackerApplication.APPLICATION_NAME )
+        super ().__init__ ( ETFTrackerApplication._APPLICATION_NAME )
         ...
         self.__run__ ()
     
@@ -105,7 +141,7 @@ class ETFTrackerApplication ( Application ):
         return True
     
     def __run__ ( self ):
-        print ( self.APPLICATION_NAME )
+        print ( self._APPLICATION_NAME )
         
         return True
     
