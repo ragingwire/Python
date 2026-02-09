@@ -48,6 +48,70 @@ class ETF ( Equity ) :
         return self._replication
 
 
+class Application ( object ):
     
+    def __init__ (self, applicationName ):
+        super ().__init__ ()
+        self.applicationName = applicationName
+        self.commandLineArgs = []
+        self.options = []
+        self.numCommandLineArgs = 0
+        
+    def getApplicationName ( self ) :
+        return self.ApplicationName
+    
+    def getNumCommandLineArgs (self):
+        return self.numCommandLineArgs
+    
+    def printUsage ( self ):
+        pass
+    
+    def log (self, logstr ):
+        print ( logstr )
+    
+    def __run__ (self ):
+        pass
+    
+    def exit (self,exitCode = 0 ):
+        self.exitCode = exitCode
+        sys.exit ( self.exitCode )
+        
+    def __handeCommandLineArgs__ ( self ):
+        pass
+
+class ETFTrackerApplication ( Application ):
+    
+    APPLICATION_NAME = "ETF Tracker Application"
+    APPLICATION_USAGE = "Usage: python your_script_name.py <input_directory_path>"
+    
+    def __init__ (self ):
+        super ().__init__ ( ETFTrackerApplication.APPLICATION_NAME )
+        ...
+        self.__run__ ()
+    
+    def __handleCommanddLineArgs__ ( self ):
+        self.numCommandLineArgs = len ( sys.argv )
+        if self.numCommandLineArgs == 1:
+            self.__printUsage__ ()
+            return False
+        elif self.numCommandLineArgs == 2:
+            ...
+        elif self.numCommandLineArgs == 3:
+            ...
+        
+        return True
+    
+    def __printUsage__ (self ):
+        return True
+    
+    def __run__ ( self ):
+        print ( self.APPLICATION_NAME )
+        
+        return True
+    
+
+
 if __name__ == "__main__":
-    ...
+    
+    etfTrackerApplication = ETFTrackerApplication ()
+    
