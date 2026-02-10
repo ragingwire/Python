@@ -4,13 +4,19 @@ import time
 import math
 import yfinance as yf
 
+
+
 class Equity ( object ):
-    def __init__( self, name, ticker, isin, wkn ):
+    def __init__( self, name, ticker, baseValue = 0.0, actualValue = 0.0, currency = "USD", isin = "", wkn = "" ):
         super ().__init__ ()
         self._name = name
         self._ticker = ticker
         self._isin = isin
         self._wkn = wkn
+        self._actualValue = actualValue
+        self._baseValue = baseValue
+        self._currency = currency
+        self.__getActualValue__ ()
     
     def getName ( self ):
         return self._name
@@ -24,6 +30,24 @@ class Equity ( object ):
     def getWKN ( self ) :
         return self._wkn
     
+    def __getActualValue__ ( self ) :
+        ticker = yf.Ticker( self._ticker )
+        self._actualValue = ticker.info.get('regularMarketPrice')
+        self.__calculateGain__ ()
+        return self._actualValue
+    
+    def getGain ( self ) :
+        return self._gain
+    
+    def __updateActualValue__ ( self ):
+        
+        self.__caculateGain__ ()
+        return True
+    
+    def __calculateGain__ ( self ) :
+        self._gain = ( ( self._actualValue - self._baseValue ) / self._baseValue) * 100
+        return self._gain
+    
 
 class ETF ( Equity ) :
     
@@ -32,33 +56,21 @@ class ETF ( Equity ) :
     _ETF_REPLICATION_PHYSICAL = "physical"
     
 
-    def __init__ ( self, distributionPolicy = _ETF_DISTRIBUTION_POLICY_ACCUMULATING, replication = _ETF_REPLICATION_PHYSICAL ):
-        super.__init__( ticker, isin, wkn )
-        self._fundProvider = ""
-        self._etfName = ""
-        self._ticker = ""
-        self._isin = ""
-        self._wkn = ""
-        self._fundCurrency = "USD"
+    def __init__ ( self, name, ticker, baseValue, actualValue, numShares = 1, currency = "USD", isin = "", wkn = "", distributionPolicy = _ETF_DISTRIBUTION_POLICY_ACCUMULATING, replication = _ETF_REPLICATION_PHYSICAL ):
+        super ().__init__( name, ticker, baseValue, actualValue, currency, isin, wkn )
+        self._provider = ""
         self._hedged = False
-        self._numShares = 0
+        self._numShares = numShares
         self._distributionPolicy = distributionPolicy
         self._replication = replication
-        self._actualPrice = 0.0
-        self._basePrice = 0.0
-        self._actualPrice = 0.0
-        self._totalValue = 0.0
-        self._gain = 0.0
+        self._totalValue = self._numShares * self._actualValue
         self._ter = 0.0
         
-    def getNumShares ( self ):
-        return self._numShares
     
-    def getDistributionPolicy ( self ) :
-        return self._distributionPolicy
-        
-    def getReplication ( self ) :
-        return self._replication
+    def getTotalValue ( self ) :
+        return self._totalValue
+    
+    
 
 
 class ETFTracker ( object ) :
@@ -66,21 +78,26 @@ class ETFTracker ( object ) :
     _ETF_TRACKER_CONFIGURATION_FILE = "F:\downloads\ETF-Tracker.xlsx"
     
     def __init__ ( self, configFile = _ETF_TRACKER_CONFIGURATION_FILE ) : 
-        super.__init__ ()
-        self.configFile = configFile
-        self.dataFrame = pd.DataFrame ()
-        self.etfs = []
+        super ().__init__ ()
+        self._configFile = configFile
+        self._dataFrame = pd.DataFrame ()
+        self._etfs = []
+        self.__readConfigFile__()
         
     def __readConfigFile__ ( self ):
-        self.dataFrame = pd.read_excel ( self._ETF_TRACKER_CONFIGURATION_FILE )
+        self._dataFrame = pd.read_excel ( self._ETF_TRACKER_CONFIGURATION_FILE )
+        num_etfs = len ( self._dataFrame )
+        for i in range ( num_etfs ) :
+            _ = self._dataFrame.loc [ i : i ]
+            etf = ETF ( _['Name'], _['Ticker'], _['BaseValue'], _['ActualValue'], _['NumShares'] )
+            self._etfs.append ( etf )
+            print ( etf )
         
         return True
     
     def __writeConfigFile__ ( self ):
-        self.dataFrame = pd.write_excel ( self._ETF_TRACKER_CONFIGURATION_FILE )
-        num_etfs = len ( self.dataFrame )
-        for etf in range ( num_etf ):
-            
+        ...
+                
         
         return True
 
@@ -118,11 +135,10 @@ class Application ( object ):
 class ETFTrackerApplication ( Application ):
     
     _APPLICATION_NAME = "ETF Tracker Application"
-    _APPLICATION_USAGE = "Usage: python your_script_name.py <input_directory_path>"
+    _APPLICATION_USAGE = "Usage: python etftracker.py <configfile>"
     
     def __init__ (self ):
         super ().__init__ ( ETFTrackerApplication._APPLICATION_NAME )
-        ...
         self.__run__ ()
     
     def __handleCommanddLineArgs__ ( self ):
@@ -142,6 +158,7 @@ class ETFTrackerApplication ( Application ):
     
     def __run__ ( self ):
         print ( self._APPLICATION_NAME )
+        etfTracker = ETFTracker ()
         
         return True
     
