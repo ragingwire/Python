@@ -25,6 +25,8 @@ from tkinter import font as tkfont
 from datetime import datetime
 
 import feedparser
+import webbrowser
+import re
 
 # ---------------------------------------------------------------------------
 # Configuration
@@ -48,13 +50,13 @@ COLORS = [
     "#ff00FF",  # orange
 ]
 
-REFRESH_INTERVAL_MS = 180 * 1000  # 3 minutes
-MAX_ENTRIES_PER_FEED = 15         # how many items to show per feed each refresh
+REFRESH_INTERVAL_MS = 300 * 1000  # 3 minutes
+MAX_ENTRIES_PER_FEED = 12        # how many items to show per feed each refresh
 
 
 class RSSReaderApp:
-    def __init__(self, root):
-        self.root = root
+    def __init__(self ):
+        self.root = tk.Tk()
         self.root.title("Python RSS Feed Reader")
         self.root.geometry("900x650")
         self.root.configure(bg="#1e1e1e")
@@ -64,6 +66,7 @@ class RSSReaderApp:
 
         self._build_ui()
         self._start_refresh_loop()
+        self.__run__()
 
     # -----------------------------------------------------------------
     # UI construction
@@ -126,7 +129,7 @@ class RSSReaderApp:
         # plus generic tags for metadata / body text.
         for i, color in enumerate(self.colors):
             self.text.tag_configure(f"feed{i}_title", foreground=color,
-                                     font=("Helvetica", 12, "bold"))
+                                     font=("Helvetica", 11, "bold"))
             self.text.tag_configure(f"feed{i}_source", foreground=color,
                                      font=("Helvetica", 9, "bold"))
         self.text.tag_configure("meta", foreground="#888888",
@@ -152,7 +155,7 @@ class RSSReaderApp:
             self.text.yview_scroll(1, "units")
         else:
             delta = -1 if event.delta > 0 else 1
-            self.text.yview_scroll(delta, "units")
+            self.text.yview_scroll(delta * 10, "units")
         return "break"
 
     def _on_mousewheel_h(self, event):
@@ -237,7 +240,7 @@ class RSSReaderApp:
 
         self.text.configure(state=tk.DISABLED)
         now = datetime.now().strftime("%H:%M:%S")
-        self.status_var.set(f"Last updated at {now} • next refresh in 3 min")
+        self.status_var.set(f"Last updated at {now} • next refresh in 5 min")
 
     def _bind_link_click(self, index, url):
         tag_name = f"link_{index.replace('.', '_')}"
@@ -252,21 +255,16 @@ class RSSReaderApp:
 
     @staticmethod
     def _open_link(url):
-        import webbrowser
         webbrowser.open(url)
 
     @staticmethod
     def _strip_html(raw_html):
-        import re
         text = re.sub(r"<[^>]+>", "", raw_html or "")
         return " ".join(text.split())
-
-
-def main():
-    root = tk.Tk()
-    app = RSSReaderApp(root)
-    root.mainloop()
+    
+    def __run__(self):
+        self.root.mainloop () 
 
 
 if __name__ == "__main__":
-    main()
+    RSSReaderApp ()
