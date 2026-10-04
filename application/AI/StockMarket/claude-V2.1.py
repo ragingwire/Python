@@ -37,32 +37,32 @@ class Config:
 
     # ---- data settings -----------------------------------------------------
     ticker: str = "TXN"                   # Yahoo Finance symbol, e.g. "AAPL", "MSFT", "TXN"
-    start_date: str = "2012-01-01"        # first day of history to download (YYYY-MM-DD)
+    start_date: str = "2020-01-01"        # first day of history to download (YYYY-MM-DD)
     end_date: Optional[str] = None        # last day; None means "up to today"
     target_column: str = "Close"          # the price we want to predict
 
     # ---- windowing / splitting ---------------------------------------------
-    sequence_length: int = 60             # how many past trading days the model sees
-    train_ratio: float = 0.80             # first 70 % of the timeline  -> training
+    sequence_length: int = 100            # how many past trading days the model sees
+    train_ratio: float = 0.70             # first 70 % of the timeline  -> training
     val_ratio: float = 0.15               # next  15 %                  -> validation
     # (the remaining 15 % automatically becomes the untouched TEST set)
 
     # ---- Transformer architecture ------------------------------------------
-    d_model: int = 64                     # internal embedding width (must be even)
+    d_model: int = 64                    # internal embedding width (must be even)
     n_heads: int = 4                      # attention heads (d_model must divide by this)
     n_layers: int = 5                    # number of stacked encoder layers
     dim_feedforward: int = 256            # width of the feed-forward block in each layer
-    dropout: float = 0.10                 # regularisation: randomly zero 10 % of activations
+    dropout: float = 0.005                 # regularisation: randomly zero 10 % of activations
 
     # ---- training settings -------------------------------------------------
-    batch_size: int = 64                  # samples per gradient step
-    epochs: int = 60                     # maximum number of passes over the training data
-    learning_rate: float = 5e-4           # AdamW step size
+    batch_size: int = 16                 # samples per gradient step
+    epochs: int = 54                     # maximum number of passes over the training data
+    learning_rate: float = 2.75e-5           # AdamW step size
     weight_decay: float = 1e-4            # L2-style regularisation of the weights
     grad_clip: float = 1.0                # clip gradient norm to avoid exploding gradients
-    huber_delta: float = 0.05             # Huber loss switches from squared to linear error here
-    patience: int = 12                    # stop early if validation loss does not improve this long
-    seed: int = 42                        # random seed for reproducibility
+    huber_delta: float = 0.075             # Huber loss switches from squared to linear error here
+    patience: int = 20                    # stop early if validation loss does not improve this long
+    seed: int = 44                        # random seed for reproducibility
 
 
 # ============================================================================
