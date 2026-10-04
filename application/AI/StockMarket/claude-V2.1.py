@@ -48,8 +48,8 @@ class Config:
     # (the remaining 15 % automatically becomes the untouched TEST set)
 
     # ---- Transformer architecture ------------------------------------------
-    d_model: int = 64                    # internal embedding width (must be even)
-    n_heads: int = 4                      # attention heads (d_model must divide by this)
+    d_model: int = 256                    # internal embedding width (must be even)
+    n_heads: int = 8                      # attention heads (d_model must divide by this)
     n_layers: int = 5                    # number of stacked encoder layers
     dim_feedforward: int = 256            # width of the feed-forward block in each layer
     dropout: float = 0.005                 # regularisation: randomly zero 10 % of activations
@@ -62,7 +62,7 @@ class Config:
     grad_clip: float = 1.0                # clip gradient norm to avoid exploding gradients
     huber_delta: float = 0.075             # Huber loss switches from squared to linear error here
     patience: int = 20                    # stop early if validation loss does not improve this long
-    seed: int = 44                        # random seed for reproducibility
+    seed: int = 42                        # random seed for reproducibility
 
 
 # ============================================================================
