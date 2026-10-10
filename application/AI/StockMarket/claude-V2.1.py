@@ -56,8 +56,8 @@ class Config:
 
     # ---- training settings -------------------------------------------------
     batch_size: int = 16                 # samples per gradient step
-    epochs: int = 54                     # maximum number of passes over the training data
-    learning_rate: float = 2.75e-5           # AdamW step size
+    epochs: int = 29                    # maximum number of passes over the training data
+    learning_rate: float = 2.5e-5           # AdamW step size
     weight_decay: float = 1e-4            # L2-style regularisation of the weights
     grad_clip: float = 1.0                # clip gradient norm to avoid exploding gradients
     huber_delta: float = 0.075             # Huber loss switches from squared to linear error here
